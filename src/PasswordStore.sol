@@ -25,6 +25,9 @@ contract PasswordStore {
      */
     function setPassword(string memory newPassword) external {
         // TODO should check for owner here and revert if not
+        if (msg.sender != s_owner) {
+            revert PasswordStore__NotOwner();
+        }
         s_password = newPassword;
         emit SetNetPassword();
     }
