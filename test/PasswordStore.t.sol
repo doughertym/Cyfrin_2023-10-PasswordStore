@@ -34,6 +34,12 @@ contract PasswordStoreTest is Test {
     function test_non_owner_set_password_reverts() public {
         vm.startPrank(address(1));
         vm.expectRevert(PasswordStore.PasswordStore__NotOwner.selector);
+
         passwordStore.setPassword("YouAreLockedOut");
+
+        vm.startPrank(owner);
+        string memory currentPassword = passwordStore.getPassword();
+        assertEq(currentPassword, "myPassword");
+        assertNotEq(currentPassword, "YouAreLockedOut");
     }
 }
