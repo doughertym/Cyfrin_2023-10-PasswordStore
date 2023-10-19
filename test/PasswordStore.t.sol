@@ -27,13 +27,13 @@ contract PasswordStoreTest is Test {
     function test_non_owner_reading_password_reverts() public {
         vm.startPrank(address(1));
 
-        vm.expectRevert(PasswordStore.PasswordStore__NotOwner.selector);
+        vm.expectRevert("Ownable: caller is not the owner");
         passwordStore.getPassword();
     }
 
     function test_non_owner_set_password_reverts() public {
         vm.startPrank(address(1));
-        vm.expectRevert(PasswordStore.PasswordStore__NotOwner.selector);
+        vm.expectRevert("Ownable: caller is not the owner");
 
         passwordStore.setPassword("YouAreLockedOut");
 
