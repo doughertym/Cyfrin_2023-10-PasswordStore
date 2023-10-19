@@ -24,6 +24,7 @@ contract PasswordStore {
      * @param newPassword The new password to set.
      */
     function setPassword(string memory newPassword) external {
+        // TODO should check for owner here and revert if not
         s_password = newPassword;
         emit SetNetPassword();
     }
