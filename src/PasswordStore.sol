@@ -15,6 +15,13 @@ contract PasswordStore {
 
     event SetNetPassword();
 
+    modifier onlyOwner() {
+        if (msg.sender != s_owner) {
+            revert PasswordStore__NotOwner();
+        }
+        _;
+    }
+
     constructor() {
         s_owner = msg.sender;
     }
@@ -23,11 +30,7 @@ contract PasswordStore {
      * @notice This function allows only the owner to set a new password.
      * @param newPassword The new password to set.
      */
-    function setPassword(string memory newPassword) external {
-        // TODO should check for owner here and revert if not
-        if (msg.sender != s_owner) {
-            revert PasswordStore__NotOwner();
-        }
+    function setPassword(string memory newPassword) external onlyOwner {
         s_password = newPassword;
         emit SetNetPassword();
     }
@@ -36,10 +39,7 @@ contract PasswordStore {
      * @notice This allows only the owner to retrieve the password.
      * @param newPassword The new password to set.
      */
-    function getPassword() external view returns (string memory) {
-        if (msg.sender != s_owner) {
-            revert PasswordStore__NotOwner();
-        }
+    function getPassword() external view onlyOwner returns (string memory)  {
         return s_password;
     }
 }
